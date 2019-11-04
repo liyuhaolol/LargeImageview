@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "spa.lyh.cn.newspaper"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    //implementation 'me.kaelaela:verticalviewpager:1.0.0@aar'
+    //implementation project(':verticalviewpager')
+    implementation "androidx.viewpager2:viewpager2:1.0.0-rc01"
+    //图片查看缩放
+    //implementation 'com.commit451:PhotoView:1.2.4'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation project(path: ':cns_android_sdk')
+}

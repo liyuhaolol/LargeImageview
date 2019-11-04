@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--<uk.co.senab.photoview.PhotoView
+        android:id="@+id/photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>-->
+
+    <spa.lyh.cn.newspaper.RoundProgressBar
+        android:id="@+id/bar"
+        style="@style/RoundProgressBar_Default"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        custom:progress_current="0"
+        android:layout_centerInParent="true"
+        custom:progress_text_color="@color/cns_black"
+        custom:progress_reached_color="@color/cns_black"
+        android:visibility="visible"/>
+</RelativeLayout>

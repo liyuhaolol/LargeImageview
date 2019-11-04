@@ -1,0 +1,2 @@
+include ':app', ':verticalviewpager', ':cns_android_sdk'
+rootProject.name='NewsPaper'
