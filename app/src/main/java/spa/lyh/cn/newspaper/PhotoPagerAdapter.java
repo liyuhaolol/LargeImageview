@@ -1,6 +1,8 @@
 package spa.lyh.cn.newspaper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.shizhefei.view.largeimage.BlockImageLoader;
 import com.shizhefei.view.largeimage.LargeImageView;
 import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
+import com.shizhefei.view.largeimage.factory.InputStreamBitmapDecoderFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -90,7 +93,16 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
-                        holder.photoView.setImage(new FileBitmapDecoderFactory(resource));
+                        Bitmap bitmap= BitmapFactory.decodeFile(resource.getAbsolutePath());
+                        float scale = (1.0f * bitmap.getWidth() / holder.photoView.getWidth()) * holder.photoView.getHeight() / bitmap.getHeight();
+                        /*Log.e("liyuhao","图片宽："+bitmap.getWidth());
+                        Log.e("liyuhao","图片高："+bitmap.getHeight());*/
+                        if (!bitmap.isRecycled()) {
+                            bitmap.recycle();
+                        }
+                        /*Log.e("liyuhao","控件宽："+holder.photoView.getWidth());
+                        Log.e("liyuhao","控件高："+holder.photoView.getHeight());*/
+                        holder.photoView.setImage(new FileBitmapDecoderFactory(resource),null,scale < 1.0f?scale:1.0f);
 
                         ProgressInterceptor.removeListener(mData.get(position));
                         holder.progressBar.setVisibility(View.GONE);
@@ -125,30 +137,32 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setCriticalScaleValueHook(new LargeImageView.CriticalScaleValueHook() {
                 @Override
                 public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
-                    float width = imageWidth;
+                    /*float width = imageWidth;
                     float height = imageHeight;
                     float result = width/height;
                     Log.e("liyuhao","图片宽："+imageWidth);
                     Log.e("liyuhao","图片高："+imageHeight);
-                    DisplayMetrics metrics = new DisplayMetrics();
+                    *//*DisplayMetrics metrics = new DisplayMetrics();
                     WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-                    wm.getDefaultDisplay().getMetrics(metrics);
-                    Log.e("liyuhao","设备可使用宽："+metrics.widthPixels);
-                    Log.e("liyuhao","设备可使用高："+metrics.heightPixels);
+                    wm.getDefaultDisplay().getMetrics(metrics);*//*
+                    Log.e("liyuhao","控件宽："+largeImageView.getWidth());
+                    Log.e("liyuhao","控件高："+largeImageView.getHeight());
                     //Log.e("liyuhao","设备状态栏高："+CnsCommonUtil.getStatusBarHeight(mContext));
-                    return 1.0f;
+                    float b = (1.0f * imageWidth / largeImageView.getWidth()) * largeImageView.getHeight() / imageHeight;*/
+                    //Log.e("liyuhao",b+"");
+                    return suggestMinScale;
                 }
 
                 @Override
                 public float getMaxScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMaxScale) {
-                    return 5.0f;
+                    return suggestMaxScale;
                 }
             });
 
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Log.e("liyuhao",photoView.getScale()+"");
+
                 }
             });
 
@@ -160,6 +174,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
                 @Override
                 public void onLoadFinished(int loadType, Object param, boolean success, Throwable throwable) {
+                    //photoView.setScale(photoView.getMinScale());
                 }
             });
         }

@@ -24,6 +24,8 @@ public interface ILargeImageView {
 
     void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable);
 
+    void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable, float scale);
+
     void setImage(Bitmap bm);
 
     void setImage(Drawable drawable);

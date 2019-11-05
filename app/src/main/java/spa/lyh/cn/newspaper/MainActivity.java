@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         imgUrls = new ArrayList<>();
         imgUrls.add("http://img.zcool.cn/community/0130175568a93000000127164788c3.jpg");
+        imgUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572952809598&di=6c26006f0286eab62f8fc60db3bf5d0e&imgtype=0&src=http%3A%2F%2Fimage.51bidlive.com%2Fu%2F20180613%2F0247.jpg");
         imgUrls.add("http://img.zcool.cn/community/0175b257189a156ac7251343e36176.jpg");
         imgUrls.add("http://img.zcool.cn/community/01462b572c593e32f875a399b76259.jpg");
         imgUrls.add("http://img.zcool.cn/community/012c79572c59bf32f875a399b7adf8.jpg");

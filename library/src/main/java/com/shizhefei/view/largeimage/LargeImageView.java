@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -207,7 +208,12 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
 
     @Override
     public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable) {
-        mScale = 1.0f;
+        setImage(factory,defaultDrawable,1.0f);
+    }
+
+    @Override
+    public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable, float scale) {
+        mScale = scale;
         this.mFactory = factory;
         scrollTo(0, 0);
         updateDrawable(defaultDrawable);
@@ -404,9 +410,13 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
             float imageScale = imgWidth / width;
 
             // 需要显示的图片的实际宽度。
+
             imageRect.left = (int) Math.ceil((left - mOffsetX) * imageScale);
+
             imageRect.top = (int) Math.ceil((top - mOffsetY) * imageScale);
+
             imageRect.right = (int) Math.ceil((right - mOffsetX) * imageScale);
+
             imageRect.bottom = (int) Math.ceil((bottom - mOffsetY) * imageScale);
 
             int saveCount = canvas.save();

@@ -174,7 +174,12 @@ public class UpdateImageView extends UpdateView implements OnImageLoadListener, 
 
     @Override
     public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable) {
-        mScale = 1;
+        setImage(factory,defaultDrawable,1.0f);
+    }
+
+    @Override
+    public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable, float scale) {
+        mScale = scale;
         mOffsetX = 0;
         mOffsetY = 0;
         mDrawable = null;
