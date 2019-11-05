@@ -107,7 +107,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
         return mData.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+     class ViewHolder extends RecyclerView.ViewHolder {
         LargeImageView photoView;
         RoundProgressBar progressBar;
 
@@ -118,19 +118,6 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setCriticalScaleValueHook(new LargeImageView.CriticalScaleValueHook() {
                 @Override
                 public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
-                    /*float width = imageWidth;
-                    float height = imageHeight;
-                    float result = width/height;
-                    Log.e("liyuhao","图片宽："+imageWidth);
-                    Log.e("liyuhao","图片高："+imageHeight);
-                    *//*DisplayMetrics metrics = new DisplayMetrics();
-                    WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-                    wm.getDefaultDisplay().getMetrics(metrics);*//*
-                    Log.e("liyuhao","控件宽："+largeImageView.getWidth());
-                    Log.e("liyuhao","控件高："+largeImageView.getHeight());
-                    //Log.e("liyuhao","设备状态栏高："+CnsCommonUtil.getStatusBarHeight(mContext));
-                    float b = (1.0f * imageWidth / largeImageView.getWidth()) * largeImageView.getHeight() / imageHeight;*/
-                    //Log.e("liyuhao",b+"");
                     return suggestMinScale;
                 }
 
