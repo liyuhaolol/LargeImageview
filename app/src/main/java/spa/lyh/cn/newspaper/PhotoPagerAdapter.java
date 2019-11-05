@@ -93,16 +93,14 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
-                        Bitmap bitmap= BitmapFactory.decodeFile(resource.getAbsolutePath());
-                        float scale = (1.0f * bitmap.getWidth() / holder.photoView.getWidth()) * holder.photoView.getHeight() / bitmap.getHeight();
-                        /*Log.e("liyuhao","图片宽："+bitmap.getWidth());
-                        Log.e("liyuhao","图片高："+bitmap.getHeight());*/
-                        if (!bitmap.isRecycled()) {
-                            bitmap.recycle();
-                        }
+                        FileBitmapDecoderFactory factory = new FileBitmapDecoderFactory(resource);
+                        int[] info = factory.getImageInfo();
+                        /*Log.e("liyuhao","图片宽："+info[0]);
+                        Log.e("liyuhao","图片高："+info[1]);*/
+                        float scale = (1.0f * info[0] / holder.photoView.getWidth()) * holder.photoView.getHeight() / info[1];
                         /*Log.e("liyuhao","控件宽："+holder.photoView.getWidth());
                         Log.e("liyuhao","控件高："+holder.photoView.getHeight());*/
-                        holder.photoView.setImage(new FileBitmapDecoderFactory(resource),null,scale < 1.0f?scale:1.0f);
+                        holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f);
 
                         ProgressInterceptor.removeListener(mData.get(position));
                         holder.progressBar.setVisibility(View.GONE);
