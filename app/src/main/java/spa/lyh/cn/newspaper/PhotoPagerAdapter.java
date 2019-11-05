@@ -8,27 +8,37 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.shizhefei.view.largeimage.BlockImageLoader;
+import com.shizhefei.view.largeimage.LargeImageView;
+import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import cns.workspace.lib.androidsdk.image.glide.ProgressInterceptor;
 import cns.workspace.lib.androidsdk.image.glide.ProgressListener;
+import cns.workspace.lib.androidsdk.utils.CnsCommonUtil;
 
 
 /**
@@ -50,65 +60,6 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
         pro = new int[list.size()];
     }
 
-
-
-    /*public View instantiateItem(ViewGroup container, final int position) {
-        final ImageView photoView;
-        final RoundProgressBar bar;
-        *//*if (mIsMatch) {
-            photoView = new ImageView(mContext);
-            photoView.setScaleType(ScaleType.FIT_XY);
-        } else {
-            photoView = new PhotoView(mContext);
-        }*//*
-        View root = View.inflate(mContext, R.layout.img_view,null);
-        photoView = root.findViewById(R.id.photo);
-        photoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.OnMyClick(v,0);
-            }
-        });
-        bar = root.findViewById(R.id.bar);
-        if (pro[position] == 0){
-            bar.setProgress(1);
-        }else {
-            bar.setProgress(pro[position]);
-        }
-        ProgressInterceptor.addListener(mData.get(position), new ProgressListener() {
-            @Override
-            public void onProgress(int progress) {
-                bar.setProgress(progress);
-                pro[position] = progress;
-            }
-        });
-        RequestOptions options = new RequestOptions().format(DecodeFormat.PREFER_ARGB_8888);
-        Glide.with(mContext)
-                .asDrawable()
-                .apply(options)
-                .load(mData.get(position))
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        ProgressInterceptor.removeListener(mData.get(position));
-                        bar.setVisibility(View.GONE);
-                        //photoView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pic_big));
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        ProgressInterceptor.removeListener(mData.get(position));
-                        bar.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .into(photoView);
-
-        container.addView(root, LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT);
-        return root;
-    }*/
 
     @NonNull
     @Override
@@ -133,14 +84,14 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
         });
         RequestOptions options = new RequestOptions().format(DecodeFormat.PREFER_ARGB_8888);
         Glide.with(mContext)
-                .asDrawable()
-                .apply(options)
+                .asFile()
+                //.apply(options)
                 .load(mData.get(position))
-                //.load("/sdcard/1.jpg")
-                .into(new CustomTarget<Drawable>() {
+                .into(new CustomTarget<File>() {
                     @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        holder.photoView.setImageDrawable(resource);
+                    public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
+                        holder.photoView.setImage(new FileBitmapDecoderFactory(resource));
+
                         ProgressInterceptor.removeListener(mData.get(position));
                         holder.progressBar.setVisibility(View.GONE);
                     }
@@ -164,14 +115,53 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        PhotoView photoView;
+        MyBigImg photoView;
         RoundProgressBar progressBar;
 
         ViewHolder(View itemView) {
             super(itemView);
             photoView = itemView.findViewById(R.id.photo);
             progressBar = itemView.findViewById(R.id.bar);
+            photoView.setCriticalScaleValueHook(new LargeImageView.CriticalScaleValueHook() {
+                @Override
+                public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
+                    float width = imageWidth;
+                    float height = imageHeight;
+                    float result = width/height;
+                    Log.e("liyuhao","图片宽："+imageWidth);
+                    Log.e("liyuhao","图片高："+imageHeight);
+                    DisplayMetrics metrics = new DisplayMetrics();
+                    WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+                    wm.getDefaultDisplay().getMetrics(metrics);
+                    Log.e("liyuhao","设备可使用宽："+metrics.widthPixels);
+                    Log.e("liyuhao","设备可使用高："+metrics.heightPixels);
+                    //Log.e("liyuhao","设备状态栏高："+CnsCommonUtil.getStatusBarHeight(mContext));
+                    return 1.0f;
+                }
 
+                @Override
+                public float getMaxScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMaxScale) {
+                    return 5.0f;
+                }
+            });
+
+            photoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Log.e("liyuhao",photoView.getScale()+"");
+                }
+            });
+
+            photoView.setOnLoadStateChangeListener(new BlockImageLoader.OnLoadStateChangeListener() {
+                @Override
+                public void onLoadStart(int loadType, Object param) {
+
+                }
+
+                @Override
+                public void onLoadFinished(int loadType, Object param, boolean success, Throwable throwable) {
+                }
+            });
         }
     }
 }

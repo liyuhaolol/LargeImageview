@@ -1,2 +1,2 @@
-include ':app', ':verticalviewpager', ':cns_android_sdk'
+include ':app', ':verticalviewpager', ':cns_android_sdk', ':library'
 rootProject.name='NewsPaper'

@@ -2,6 +2,10 @@ package spa.lyh.cn.newspaper;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*Window window = this.getWindow();
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        attributes.flags |= flagTranslucentStatus;
+        //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+        //attributes.flags |= flagTranslucentNavigation;
+        window.setAttributes(attributes);*/
         initViewPager();
     }
 
