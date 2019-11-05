@@ -1,4 +1,4 @@
-package com.shizhefei.view.largeimage;
+package spa.lyh.cn.lib_largeimageview;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;

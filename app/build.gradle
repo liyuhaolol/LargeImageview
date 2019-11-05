@@ -8,7 +8,6 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -23,7 +22,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0-rc01"
     //implementation 'com.shizhefei:LargeImageView:1.1.0'
-    implementation project(':library')
+    implementation project(':lib_largeimageview')
     //图片查看缩放
     //implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation project(path: ':cns_android_sdk')

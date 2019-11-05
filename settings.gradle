@@ -1,2 +1,2 @@
-include ':app', ':verticalviewpager', ':cns_android_sdk', ':library'
+include ':app', ':cns_android_sdk', ':lib_largeimageview'
 rootProject.name='NewsPaper'

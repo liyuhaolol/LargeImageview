@@ -2,11 +2,13 @@ package spa.lyh.cn.newspaper;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
@@ -21,26 +23,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*Window window = this.getWindow();
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        attributes.flags |= flagTranslucentStatus;
-        //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-        //attributes.flags |= flagTranslucentNavigation;
-        window.setAttributes(attributes);*/
         initViewPager();
     }
 
     private void initViewPager() {
         ViewPager2 viewPager = findViewById(R.id.viewpager2);
+        viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
 
-        /*viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
-        });*/
-        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Log.e("liyuhao",position+"");
+            }
+        });
 
         imgUrls = new ArrayList<>();
         imgUrls.add("http://img.zcool.cn/community/0130175568a93000000127164788c3.jpg");

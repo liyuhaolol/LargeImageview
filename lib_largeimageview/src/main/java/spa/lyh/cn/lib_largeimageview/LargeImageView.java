@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.shizhefei.view.largeimage;
+package spa.lyh.cn.lib_largeimageview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -40,7 +39,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
-import com.shizhefei.view.largeimage.factory.BitmapDecoderFactory;
+import spa.lyh.cn.lib_largeimageview.factory.BitmapDecoderFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -882,4 +881,46 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
     }
 
     private OnDoubleClickListener onDoubleClickListener;
+
+
+
+    private int startX, startY;
+    private int multiTouch;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_POINTER_DOWN:
+                multiTouch = 1;
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                //Log.e("liyuhao","触发"+ev.getPointerCount());
+                if (ev.getPointerCount() == 2){
+                    //还有1个手指头
+                    multiTouch = 0;
+                }
+
+                break;
+            case MotionEvent.ACTION_DOWN:
+                startX = (int) ev.getX();
+                startY = (int) ev.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int endX = (int) ev.getX();
+                int endY = (int) ev.getY();
+                int disX = Math.abs(endX - startX);
+                int disY = Math.abs(endY - startY);
+                if(disX > disY){
+                    getParent().requestDisallowInterceptTouchEvent(multiTouch > 0 || canScrollHorizontally(startX -endX));
+                }else {
+                    getParent().requestDisallowInterceptTouchEvent(multiTouch > 0 || canScrollVertically(startY -endY));
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

@@ -1,11 +1,11 @@
-package com.shizhefei.view.largeimage;
+package spa.lyh.cn.lib_largeimageview;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.DrawableRes;
 
-import com.shizhefei.view.largeimage.factory.BitmapDecoderFactory;
+import spa.lyh.cn.lib_largeimageview.factory.BitmapDecoderFactory;
 
 /**
  * Created by LuckyJayce on 2016/11/24.

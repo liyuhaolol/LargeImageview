@@ -1,4 +1,4 @@
-package com.shizhefei.view.largeimage.factory;
+package spa.lyh.cn.lib_largeimageview.factory;
 
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
@@ -6,8 +6,6 @@ import android.graphics.Rect;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import static android.R.attr.path;
 
 public class InputStreamBitmapDecoderFactory implements BitmapDecoderFactory {
     private InputStream inputStream;

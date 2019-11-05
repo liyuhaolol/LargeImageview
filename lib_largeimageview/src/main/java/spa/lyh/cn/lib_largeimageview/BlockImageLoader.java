@@ -10,7 +10,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.shizhefei.view.largeimage;
+package spa.lyh.cn.lib_largeimageview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,7 +24,7 @@ import android.util.SparseIntArray;
 
 import androidx.core.util.Pools;
 
-import com.shizhefei.view.largeimage.factory.BitmapDecoderFactory;
+import spa.lyh.cn.lib_largeimageview.factory.BitmapDecoderFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

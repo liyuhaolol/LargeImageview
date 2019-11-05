@@ -10,7 +10,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.shizhefei.view.largeimage;
+package spa.lyh.cn.lib_largeimageview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,9 +28,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
 
-import com.shizhefei.view.largeimage.BlockImageLoader.DrawData;
-import com.shizhefei.view.largeimage.BlockImageLoader.OnImageLoadListener;
-import com.shizhefei.view.largeimage.factory.BitmapDecoderFactory;
+import spa.lyh.cn.lib_largeimageview.BlockImageLoader.DrawData;
+import spa.lyh.cn.lib_largeimageview.BlockImageLoader.OnImageLoadListener;
+import spa.lyh.cn.lib_largeimageview.factory.BitmapDecoderFactory;
 
 import java.util.ArrayList;
 import java.util.List;

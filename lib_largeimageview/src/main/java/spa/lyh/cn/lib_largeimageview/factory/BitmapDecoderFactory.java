@@ -1,4 +1,4 @@
-package com.shizhefei.view.largeimage.factory;
+package spa.lyh.cn.lib_largeimageview.factory;
 
 import android.graphics.BitmapRegionDecoder;
 
