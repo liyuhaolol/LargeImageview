@@ -2,11 +2,6 @@ package spa.lyh.cn.newspaper;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                Log.e("liyuhao",position+"");
+                //Log.e("liyuhao",position+"");
             }
         });
 
@@ -57,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         photoPagerAdapter = new PhotoPagerAdapter(this,imgUrls);
         viewPager.setAdapter(photoPagerAdapter);
-        /*viewPager.setCurrentItem(2);
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
+        //viewPager.setCurrentItem(3);
+        /*new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 viewPager.setCurrentItem(4);

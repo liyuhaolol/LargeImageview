@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -38,6 +40,8 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
     private LayoutInflater mInflater;
 
     private int[] pro;
+
+    private int width,height;
 
     public PhotoPagerAdapter(Context context, ArrayList<String> list) {
         mContext = context;
@@ -78,11 +82,23 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                         FileBitmapDecoderFactory factory = new FileBitmapDecoderFactory(resource);
                         int[] info = factory.getImageInfo();
-                        /*Log.e("liyuhao","图片宽："+info[0]);
-                        Log.e("liyuhao","图片高："+info[1]);*/
-                        float scale = (1.0f * info[0] / holder.photoView.getWidth()) * holder.photoView.getHeight() / info[1];
-                        /*Log.e("liyuhao","控件宽："+holder.photoView.getWidth());
-                        Log.e("liyuhao","控件高："+holder.photoView.getHeight());*/
+                        Log.e("liyuhao","图片宽："+info[0]);
+                        Log.e("liyuhao","图片高："+info[1]);
+                        if (holder.photoView.getWidth()!= 0
+                                && holder.photoView.getHeight() != 0 ){
+                            //获取的长度不为0才能计算比例
+                            if (holder.photoView.getWidth() != width){
+                                width = holder.photoView.getWidth();
+                            }
+
+                            if (holder.photoView.getHeight() != height){
+                                height = holder.photoView.getHeight();
+                            }
+                        }
+                        Log.e("liyuhao","控件宽："+width);
+                        Log.e("liyuhao","控件高："+height);
+                        float scale = (1.0f * info[0] / width) * height / info[1];
+                        Log.e("liyuhao","scale："+scale);
                         holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f);
 
                         ProgressInterceptor.removeListener(mData.get(position));
@@ -118,6 +134,8 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setCriticalScaleValueHook(new LargeImageView.CriticalScaleValueHook() {
                 @Override
                 public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
+                    /*Log.e("liyuhao","控件宽1："+photoView.getWidth());
+                    Log.e("liyuhao","控件高1："+photoView.getHeight());*/
                     return suggestMinScale;
                 }
 
@@ -130,7 +148,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //Log.e("liyuhao","");
                 }
             });
 

@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -212,6 +213,10 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
 
     @Override
     public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable, float scale) {
+        /*Log.e("liyuhao","控件宽："+getWidth());
+        Log.e("liyuhao","控件高："+getHeight());
+        Log.e("liyuhao","控件宽："+getMeasuredWidth());
+        Log.e("liyuhao","控件高："+getMeasuredHeight());*/
         mScale = scale;
         this.mFactory = factory;
         scrollTo(0, 0);
@@ -375,6 +380,7 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
 
     @Override
     protected void onDraw(Canvas canvas) {
+        //Log.e("liyuhao","被调用");
         super.onDraw(canvas);
         int viewWidth = getWidth();
         int viewHeight = getHeight();

@@ -21,7 +21,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0-rc01"
-    //implementation 'com.shizhefei:LargeImageView:1.1.0'
+    implementation 'com.shizhefei:LargeImageView:1.1.0'
+    //implementation 'spa.lyh.cn:lib_largeimageview:1.0.0'
     implementation project(':lib_largeimageview')
     //图片查看缩放
     //implementation 'com.github.chrisbanes:PhotoView:2.3.0'
