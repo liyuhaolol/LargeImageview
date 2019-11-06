@@ -72,6 +72,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 pro[position] = progress;
             }
         });
+        //holder.photoView.setImage(new FileBitmapDecoderFactory("/sdcard/A01.jpg"));
         RequestOptions options = new RequestOptions().format(DecodeFormat.PREFER_ARGB_8888);
         Glide.with(mContext)
                 .asFile()
@@ -98,7 +99,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                         Log.e("liyuhao","控件宽："+width);
                         Log.e("liyuhao","控件高："+height);
                         float scale = (1.0f * info[0] / width) * height / info[1];
-                        Log.e("liyuhao","scale："+scale);
+                        //Log.e("liyuhao","scale："+scale);
                         holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f);
 
                         ProgressInterceptor.removeListener(mData.get(position));
@@ -134,8 +135,13 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setCriticalScaleValueHook(new LargeImageView.CriticalScaleValueHook() {
                 @Override
                 public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
-                    /*Log.e("liyuhao","控件宽1："+photoView.getWidth());
-                    Log.e("liyuhao","控件高1："+photoView.getHeight());*/
+                    float scale = (1.0f * imageWidth / width) * height / imageHeight;
+                    if (scale <= 1.0f){
+                        //高不小于宽时
+                        float mScale = scale-0.15f;
+                        Log.e("liyuhao",mScale+"");
+                        return mScale > suggestMinScale?mScale:suggestMinScale;
+                    }
                     return suggestMinScale;
                 }
 
