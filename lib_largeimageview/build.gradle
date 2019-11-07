@@ -62,7 +62,7 @@ task copyDoc(type: Copy) {
 }
 
 artifacts {
-    archives javadocJar
+    //archives javadocJar
     archives sourcesJar
 }
 
