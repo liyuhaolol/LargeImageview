@@ -1,8 +1,12 @@
 package spa.lyh.cn.newspaper;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTranslucent();
         initViewPager();
     }
 
@@ -33,19 +38,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                //Log.e("liyuhao","onPageScrolled->position:"+position);
+                //Log.e("liyuhao","onPageScrolled->positionOffset:"+positionOffset);
+                //Log.e("liyuhao","onPageScrolled->positionOffsetPixels:"+positionOffsetPixels);
             }
 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                //Log.e("liyuhao",position+"");
+                //Log.e("liyuhao","onPageSelected:"+position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
             }
         });
 
-        File file = new File("/sdcard/A01.jpg");
+        /*File file = new File("/sdcard/A01.jpg");
         if (file.exists()){
             Log.e("liyuhao","文件存在");
-        }
+        }*/
 
 
         imgUrls = new ArrayList<>();
@@ -68,5 +81,52 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(4);
             }
         },2000);*/
+    }
+
+    /**
+     * 非纯色状态栏，比如用图片进入状态栏位置，使用这个方法。如果纯色状态栏使用这个方法，效果与上面一致，但是不再
+     * 兼容换肤框架，状态栏颜色需要手动控制。
+     */
+    public void setTranslucent(){
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.TRANSPARENT);
+        setSystemUiVisibility(window.getDecorView(),
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
+                true);
+        /*setSystemUiVisibility(getWindow().getDecorView(),
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY,
+                true);*/
+    }
+
+
+    /**
+     * 设置显示的样式
+     * @param decorView
+     * @param visibility
+     */
+    public void setSystemUiVisibility(View decorView, int visibility, boolean isAddVisibility){
+        int oldVis = decorView.getSystemUiVisibility();
+        int newVis = oldVis;
+        if (isAddVisibility){
+            newVis |= visibility;
+        }else {
+            newVis &= ~visibility;
+        }
+        if (newVis != oldVis) {
+            decorView.setSystemUiVisibility(newVis);
+        }
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

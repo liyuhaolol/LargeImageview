@@ -37,6 +37,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.OverScroller;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
@@ -60,6 +61,7 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
     private int mDrawableWidth;
     private int mDrawableHeight;
     private float mScale = 1;
+    private float defaultScale = 1;
     private BitmapDecoderFactory mFactory;
     private float fitScale;
     private float maxScale;
@@ -218,6 +220,7 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
         Log.e("liyuhao","控件宽："+getMeasuredWidth());
         Log.e("liyuhao","控件高："+getMeasuredHeight());*/
         mScale = scale;
+        defaultScale = scale;
         this.mFactory = factory;
         scrollTo(0, 0);
         updateDrawable(defaultDrawable);
@@ -928,5 +931,13 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
                 break;
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if(visibility == INVISIBLE || visibility == GONE){
+            setScale(defaultScale);
+        }
     }
 }

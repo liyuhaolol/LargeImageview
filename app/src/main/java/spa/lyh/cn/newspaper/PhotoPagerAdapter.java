@@ -30,7 +30,7 @@ import cns.workspace.lib.androidsdk.image.glide.ProgressListener;
 
 
 /**
- * Created by renzhiqiang on 16/8/31.
+ * Created by liyuhao on 19/10/31.
  */
 public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.ViewHolder> {
 
@@ -60,8 +60,10 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        //Log.e("liyuhao",position+"");
+        holder.progressBar.setVisibility(View.VISIBLE);
         if (pro[position] == 0){
-            holder.progressBar.setProgress(1);
+            holder.progressBar.setProgress(1);//设置0好像会出问题，忘了
         }else {
             holder.progressBar.setProgress(pro[position]);
         }
@@ -73,18 +75,19 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             }
         });
         //holder.photoView.setImage(new FileBitmapDecoderFactory("/sdcard/A01.jpg"));
+        holder.photoView.setImage(null,null);//清空缓存图片
         RequestOptions options = new RequestOptions().format(DecodeFormat.PREFER_ARGB_8888);
         Glide.with(mContext)
                 .asFile()
-                //.apply(options)
+                .apply(options)
                 .load(mData.get(position))
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                         FileBitmapDecoderFactory factory = new FileBitmapDecoderFactory(resource);
                         int[] info = factory.getImageInfo();
-                        Log.e("liyuhao","图片宽："+info[0]);
-                        Log.e("liyuhao","图片高："+info[1]);
+                        /*Log.e("liyuhao","图片宽："+info[0]);
+                        Log.e("liyuhao","图片高："+info[1]);*/
                         if (holder.photoView.getWidth()!= 0
                                 && holder.photoView.getHeight() != 0 ){
                             //获取的长度不为0才能计算比例
@@ -96,8 +99,8 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                                 height = holder.photoView.getHeight();
                             }
                         }
-                        Log.e("liyuhao","控件宽："+width);
-                        Log.e("liyuhao","控件高："+height);
+                        /*Log.e("liyuhao","控件宽："+width);
+                        Log.e("liyuhao","控件高："+height);*/
                         float scale = (1.0f * info[0] / width) * height / info[1];
                         //Log.e("liyuhao","scale："+scale);
                         holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f);
@@ -108,7 +111,6 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
-
                     }
 
                     @Override
@@ -116,15 +118,19 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                         ProgressInterceptor.removeListener(mData.get(position));
                         holder.progressBar.setVisibility(View.GONE);
                     }
+
+
                 });
     }
+
+
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
-     class ViewHolder extends RecyclerView.ViewHolder {
+     public class ViewHolder extends RecyclerView.ViewHolder {
         LargeImageView photoView;
         RoundProgressBar progressBar;
 
@@ -136,13 +142,10 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 @Override
                 public float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale) {
                     float scale = (1.0f * imageWidth / width) * height / imageHeight;
-                    if (scale <= 1.0f){
-                        //高不小于宽时
-                        float mScale = scale-0.15f;
-                        Log.e("liyuhao",mScale+"");
-                        return mScale > suggestMinScale?mScale:suggestMinScale;
-                    }
-                    return suggestMinScale;
+                    //高不小于宽时
+                    float mScale = scale <= 1.0f?scale:1.0f - 0.15f;
+                    //Log.e("liyuhao",mScale+"");
+                    return mScale > suggestMinScale?mScale:suggestMinScale;
                 }
 
                 @Override
@@ -167,6 +170,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 @Override
                 public void onLoadFinished(int loadType, Object param, boolean success, Throwable throwable) {
                     //photoView.setScale(photoView.getMinScale());
+
                 }
             });
         }
