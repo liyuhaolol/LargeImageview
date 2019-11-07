@@ -696,11 +696,11 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
          * 返回最小的缩放倍数
          * scale为1的话表示，显示的图片和View一样宽
          *
-         * @param largeImageView
-         * @param imageWidth
-         * @param imageHeight
+         * @param largeImageView 大图对象
+         * @param imageWidth 图片的宽度
+         * @param imageHeight 图片的高度
          * @param suggestMinScale 默认建议的最小的缩放倍数
-         * @return
+         * @return 返回最小缩放倍数
          */
         float getMinScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMinScale);
 
@@ -708,11 +708,11 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
          * 返回最大的缩放倍数
          * scale为1的话表示，显示的图片和View一样宽
          *
-         * @param largeImageView
-         * @param imageWidth
-         * @param imageHeight
+         * @param largeImageView 大图对象
+         * @param imageWidth 图片的宽度
+         * @param imageHeight 图片高度
          * @param suggestMaxScale 默认建议的最大的缩放倍数
-         * @return
+         * @return 返回最大缩放倍数
          */
         float getMaxScale(LargeImageView largeImageView, int imageWidth, int imageHeight, float suggestMaxScale);
 
