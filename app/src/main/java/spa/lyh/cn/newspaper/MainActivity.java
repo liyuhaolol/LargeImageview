@@ -2,6 +2,7 @@ package spa.lyh.cn.newspaper;
 
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
 
         //下面图2
-        //lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
         getWindow().setAttributes(lp);
         //setTranslucent();
         initViewPager();
