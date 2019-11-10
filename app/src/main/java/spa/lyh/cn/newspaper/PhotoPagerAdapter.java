@@ -43,6 +43,8 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     private int width,height;
 
+    private View.OnClickListener clickListener;
+
     public PhotoPagerAdapter(Context context, ArrayList<String> list) {
         mContext = context;
         mData = list;
@@ -157,7 +159,9 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Log.e("liyuhao","");
+                    if (clickListener != null){
+                        clickListener.onClick(v);
+                    }
                 }
             });
 
@@ -174,5 +178,9 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 }
             });
         }
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.clickListener = listener;
     }
 }

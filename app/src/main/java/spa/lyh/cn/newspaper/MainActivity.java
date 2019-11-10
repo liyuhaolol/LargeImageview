@@ -16,17 +16,20 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.io.File;
 import java.util.ArrayList;
 
+import cns.workspace.lib.androidsdk.toast.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private PhotoPagerAdapter photoPagerAdapter;
     private ArrayList<String> imgUrls;
+    private boolean isFullscreen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        setSystemUiVisibility(getWindow().getDecorView(),View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,true);
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
 
@@ -91,6 +94,23 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(4);
             }
         },2000);*/
+        photoPagerAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFullscreen = !isFullscreen;
+                setFullscreen(isFullscreen);
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setFullscreen(isFullscreen);
+    }
+
+    private void setFullscreen(boolean isFullscreen){
+        setSystemUiVisibility(getWindow().getDecorView(),View.SYSTEM_UI_FLAG_FULLSCREEN,isFullscreen);
     }
 
     /**
@@ -102,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
+        /*setSystemUiVisibility(window.getDecorView(),
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
+                true);*/
         setSystemUiVisibility(window.getDecorView(),
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
                 true);
