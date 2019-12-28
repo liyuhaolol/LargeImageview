@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import androidx.annotation.StringRes;
 
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +45,9 @@ public class Toast {
         TextView tvT = (TextView) linT.getChildAt(0);
         tvT.setText(text);
         result.setView(linT);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) tvT.getLayoutParams();
+        layoutParams.gravity = Gravity.CENTER;
+        tvT.setLayoutParams(layoutParams);
         result.setDuration(duration);
         return result;
     }

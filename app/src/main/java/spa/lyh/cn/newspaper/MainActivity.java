@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import cns.workspace.lib.androidsdk.toast.Toast;
 import spa.lyh.cn.lib_largeimageview.LargeImageView;
@@ -25,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private PhotoPagerAdapter photoPagerAdapter;
     private ArrayList<Newspaper> imgUrls;
+    ViewPager2 viewPager;
     private boolean isFullscreen;
+    private List<HotZone> hotZoneList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +43,26 @@ public class MainActivity extends AppCompatActivity {
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
         getWindow().setAttributes(lp);
+
         //setTranslucent();
+        initHotData();
         initViewPager();
     }
 
+    private void initHotData(){
+        hotZoneList = new ArrayList<>();
+        HotZone gouzi = new HotZone(1666,1195,2162,1954,"狗子");
+        hotZoneList.add(gouzi);
+        HotZone telangpu = new HotZone(927,167,2158,979,"特朗普");
+        hotZoneList.add(telangpu);
+        HotZone wukelan = new HotZone(63,1303,899,1534,"乌克兰");
+        hotZoneList.add(wukelan);
+        HotZone yi = new HotZone(1123,2945,1458,3829,"1.9%");
+        hotZoneList.add(yi);
+    }
+
     private void initViewPager() {
-        final ViewPager2 viewPager = findViewById(R.id.viewpager2);
+        viewPager = findViewById(R.id.viewpager2);
         viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
 
@@ -159,6 +176,17 @@ public class MainActivity extends AppCompatActivity {
             //点在图片里
             Log.e("liyuhao","X:"+x);
             Log.e("liyuhao","Y:"+y);
+            if (viewPager.getCurrentItem() == 0){
+                for (int i = 0; i< hotZoneList.size();i++){
+                    if (x >= hotZoneList.get(i).getLeft() &&
+                    x <= hotZoneList.get(i).getRight() &&
+                    y >= hotZoneList.get(i).getTop()&&
+                    y <= hotZoneList.get(i).getBottom()){
+                        Toast.makeText(MainActivity.this,hotZoneList.get(i).getName(),Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }
         }
 
     }
