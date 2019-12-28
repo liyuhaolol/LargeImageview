@@ -17,12 +17,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cns.workspace.lib.androidsdk.toast.Toast;
+import spa.lyh.cn.lib_largeimageview.LargeImageView;
+import spa.lyh.cn.lib_largeimageview.OnImageRectListener;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private PhotoPagerAdapter photoPagerAdapter;
-    private ArrayList<String> imgUrls;
+    private ArrayList<Newspaper> imgUrls;
     private boolean isFullscreen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +77,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         imgUrls = new ArrayList<>();
-        imgUrls.add("http://paperstatic.uschinapress.com/repo/image/newspaperNo/2019/10/31/aebfde85-6722-4cf2-a915-1688a71d70ca/1031/A02最美国.jpg");
-        imgUrls.add("http://epaper.br-cn.com/media/pt/p/c4/0b0fb929f66a49fa98f0eb6e71dd13c4/e8a29f2053c01dcc7970e2160752981a.jpg");
-        imgUrls.add("http://img.zcool.cn/community/0130175568a93000000127164788c3.jpg");
-        imgUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572952809598&di=6c26006f0286eab62f8fc60db3bf5d0e&imgtype=0&src=http%3A%2F%2Fimage.51bidlive.com%2Fu%2F20180613%2F0247.jpg");
-        imgUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572975179441&di=c8d1a8c3de6b9bf801e9324b1de63e37&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201409%2F10%2F20140910170324_hvjiG.thumb.700_0.jpeg");
-        imgUrls.add("http://img.zcool.cn/community/0175b257189a156ac7251343e36176.jpg");
-        imgUrls.add("http://img.zcool.cn/community/01462b572c593e32f875a399b76259.jpg");
-        imgUrls.add("http://img.zcool.cn/community/012c79572c59bf32f875a399b7adf8.jpg");
-        imgUrls.add("http://img.zcool.cn/community/01bef35770e01b0000012e7e9ff90d.jpg");
+        Newspaper newspaper1 = new Newspaper();
+        newspaper1.setUrl("http://paperstatic.uschinapress.com/repo/image/newspaperNo/2019/10/31/aebfde85-6722-4cf2-a915-1688a71d70ca/1031/A02最美国.jpg");
+        imgUrls.add(newspaper1);
+        Newspaper newspaper2 = new Newspaper();
+        newspaper2.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572952809598&di=6c26006f0286eab62f8fc60db3bf5d0e&imgtype=0&src=http%3A%2F%2Fimage.51bidlive.com%2Fu%2F20180613%2F0247.jpg");
+        imgUrls.add(newspaper2);
+        Newspaper newspaper3 = new Newspaper();
+        newspaper3.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577506390392&di=027a73efa7a86f66afc4b682d418cddd&imgtype=0&src=http%3A%2F%2Fwx4.sinaimg.cn%2Forj360%2F007kVUJhly1g1inspvu5zj30v93rbnpd.jpg");
+        imgUrls.add(newspaper3);
 
         photoPagerAdapter = new PhotoPagerAdapter(this,imgUrls);
         viewPager.setAdapter(photoPagerAdapter);
@@ -94,13 +96,71 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(4);
             }
         },2000);*/
+        setFullscreen(true);
         photoPagerAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isFullscreen = !isFullscreen;
-                setFullscreen(isFullscreen);
+                /*isFullscreen = !isFullscreen;
+                setFullscreen(isFullscreen);*/
+                LargeImageView imageView = (LargeImageView) view;
+                /*Log.e("liyuhao","Scale:"+imageView.getScale());
+                Log.e("liyuhao","Width:"+imageView.getImageWidth());
+                Log.e("liyuhao","Height:"+imageView.getImageHeight());
+                Log.e("liyuhao","TouchX:"+imageView.getTouchX());
+                Log.e("liyuhao","TouchY:"+imageView.getTouchY());*/
+                /*Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getLeft());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getTop());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getRight());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getBottom());*/
+                syncData(imageView.getWidth(),
+                        imageView.getImageWidth(),
+                        imageView.getImageHeight(),
+                        imgUrls.get(viewPager.getCurrentItem()).getLeft(),
+                        imgUrls.get(viewPager.getCurrentItem()).getTop(),
+                        imgUrls.get(viewPager.getCurrentItem()).getRight(),
+                        imgUrls.get(viewPager.getCurrentItem()).getBottom(),
+                        imageView.getTouchX(),
+                        imageView.getTouchY());
             }
         });
+
+        /*photoPagerAdapter.setImageRectListener(new OnImageRectListener() {
+            @Override
+            public void getRect(int index, int left, int top, int right, int bottom) {
+                //viewPager.getCurrentItem()
+                Log.e("liyuhao","getCurrentItem:"+viewPager.getCurrentItem());
+                Log.e("liyuhao","index:"+index);
+            }
+        });*/
+    }
+
+    private void syncData(int viewWidth,
+                          int picWidth,
+                          int picHeight,
+                          int left,
+                          int top,
+                          int right,
+                          int bottom,
+                          int touchX,
+                          int touchY){
+        int widthSafe = 0;
+        int heightSafe = 0;
+        if (right > picWidth){
+            widthSafe = (right - picWidth)/2;
+        }
+        if (bottom > picHeight){
+            heightSafe = (bottom - picHeight)/2;
+        }
+        float scale = (float) (right - left) / (float)viewWidth;
+        int x = (int) (scale * touchX) - widthSafe + left;
+        int y = (int) (scale * touchY) - heightSafe + top;
+
+        if (x >= 0 && x <= picWidth && y >= 0 && y <= picHeight){
+            //点在图片里
+            Log.e("liyuhao","X:"+x);
+            Log.e("liyuhao","Y:"+y);
+        }
+
     }
 
     @Override

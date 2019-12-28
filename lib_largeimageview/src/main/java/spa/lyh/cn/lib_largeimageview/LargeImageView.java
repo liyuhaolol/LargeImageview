@@ -227,6 +227,11 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
         imageBlockImageLoader.setBitmapDecoderFactory(factory);
         invalidate();
     }
+    public int index;
+    public void setImage(BitmapDecoderFactory factory, Drawable defaultDrawable, float scale,int index){
+        this.index = index;
+        setImage(factory,defaultDrawable,scale);
+    }
 
     private void updateDrawable(Drawable d) {
         if (mDrawable != null) {
@@ -359,12 +364,12 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
         return scrollRange;
     }
 
-    private int getScrollRangeX() {
+    public int getScrollRangeX() {
         final int contentWidth = getWidth() - getPaddingRight() - getPaddingLeft();
         return (getContentWidth() - contentWidth);
     }
 
-    private int getContentWidth() {
+    public int getContentWidth() {
         if (hasLoad()) {
             return (int) (getMeasuredWidth() * mScale);
         }
@@ -385,15 +390,21 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
     protected void onDraw(Canvas canvas) {
         //Log.e("liyuhao","被调用");
         super.onDraw(canvas);
+        //屏幕可显示范围全屏的话，一般为屏幕分辨率
         int viewWidth = getWidth();
         int viewHeight = getHeight();
         if (viewWidth == 0) {
             return;
         }
+        /*Log.e("viewWidth",""+viewWidth);
+        Log.e("viewHeight",""+viewHeight);*/
         int drawOffsetX = 0;
         int drawOffsetY = 0;
+        //图片实际被显示的宽高
         int contentWidth = getContentWidth();
         int contentHeight = getContentHeight();
+        /*Log.e("contentWidth",""+contentWidth);
+        Log.e("contentHeight",""+contentHeight);*/
         if (viewWidth > contentWidth) {
             drawOffsetX = (viewWidth - contentWidth) / 2;
         }
@@ -414,7 +425,7 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
             int bottom = top + viewHeight;
             float width = mScale * getWidth();
             float imgWidth = imageBlockImageLoader.getWidth();
-
+            //Log.e("imgWidth",""+imgWidth);
             float imageScale = imgWidth / width;
 
             // 需要显示的图片的实际宽度。
@@ -426,6 +437,14 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
             imageRect.right = (int) Math.ceil((right - mOffsetX) * imageScale);
 
             imageRect.bottom = (int) Math.ceil((bottom - mOffsetY) * imageScale);
+            if (listener != null){
+                listener.getRect(index,imageRect.left,imageRect.top,imageRect.right,imageRect.bottom);
+            }
+            /*Log.e("index",""+index);
+            Log.e("imageRect.left",""+imageRect.left);
+            Log.e("imageRect.top",""+imageRect.top);
+            Log.e("imageRect.right",""+imageRect.right);
+            Log.e("imageRect.bottom",""+imageRect.bottom);*/
 
             int saveCount = canvas.save();
 
@@ -939,5 +958,19 @@ public class LargeImageView extends View implements BlockImageLoader.OnImageLoad
         if(visibility == INVISIBLE || visibility == GONE){
             setScale(defaultScale);
         }
+    }
+
+    public int getTouchX(){
+        return startX;
+    }
+
+    public int getTouchY(){
+        return startY;
+    }
+
+    private OnImageRectListener listener;
+
+    public void setImageRectListener(OnImageRectListener listener){
+        this.listener = listener;
     }
 }

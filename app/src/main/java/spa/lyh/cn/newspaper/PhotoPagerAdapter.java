@@ -20,10 +20,12 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import spa.lyh.cn.lib_largeimageview.BlockImageLoader;
 import spa.lyh.cn.lib_largeimageview.LargeImageView;
+import spa.lyh.cn.lib_largeimageview.OnImageRectListener;
 import spa.lyh.cn.lib_largeimageview.factory.FileBitmapDecoderFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import cns.workspace.lib.androidsdk.image.glide.ProgressInterceptor;
 import cns.workspace.lib.androidsdk.image.glide.ProgressListener;
@@ -36,7 +38,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     private Context mContext;
 
-    private ArrayList<String> mData;
+    private ArrayList<Newspaper> mData;
     private LayoutInflater mInflater;
 
     private int[] pro;
@@ -45,7 +47,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     private View.OnClickListener clickListener;
 
-    public PhotoPagerAdapter(Context context, ArrayList<String> list) {
+    public PhotoPagerAdapter(Context context, ArrayList<Newspaper> list) {
         mContext = context;
         mData = list;
         this.mInflater = LayoutInflater.from(context);
@@ -69,7 +71,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
         }else {
             holder.progressBar.setProgress(pro[position]);
         }
-        ProgressInterceptor.addListener(mData.get(position), new ProgressListener() {
+        ProgressInterceptor.addListener(mData.get(position).getUrl(), new ProgressListener() {
             @Override
             public void onProgress(int progress) {
                 holder.progressBar.setProgress(progress);
@@ -82,7 +84,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
         Glide.with(mContext)
                 .asFile()
                 .apply(options)
-                .load(mData.get(position))
+                .load(mData.get(position).getUrl())
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
@@ -105,9 +107,9 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                         Log.e("liyuhao","控件高："+height);*/
                         float scale = (1.0f * info[0] / width) * height / info[1];
                         //Log.e("liyuhao","scale："+scale);
-                        holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f);
+                        holder.photoView.setImage(factory,null,scale < 1.0f?scale:1.0f,position);
 
-                        ProgressInterceptor.removeListener(mData.get(position));
+                        ProgressInterceptor.removeListener(mData.get(position).getUrl());
                         holder.progressBar.setVisibility(View.GONE);
                     }
 
@@ -117,7 +119,7 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        ProgressInterceptor.removeListener(mData.get(position));
+                        ProgressInterceptor.removeListener(mData.get(position).getUrl());
                         holder.progressBar.setVisibility(View.GONE);
                     }
 
@@ -177,10 +179,30 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
                 }
             });
+
+            photoView.setImageRectListener(new OnImageRectListener() {
+                @Override
+                public void getRect(int index, int left, int top, int right, int bottom) {
+                    mData.get(index).setLeft(left);
+                    mData.get(index).setTop(top);
+                    mData.get(index).setRight(right);
+                    mData.get(index).setBottom(bottom);
+                }
+            });
+
+            photoView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //Log.e("liyuhao","hahah");
+                    return true;
+                }
+            });
         }
     }
 
     public void setOnClickListener(View.OnClickListener listener){
         this.clickListener = listener;
     }
+
+
 }
