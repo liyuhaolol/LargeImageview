@@ -1,9 +1,11 @@
 package spa.lyh.cn.newspaper;
 
 
+import android.app.Service;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +26,8 @@ import spa.lyh.cn.lib_largeimageview.OnImageRectListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    Vibrator vibrator;
+
     private PhotoPagerAdapter photoPagerAdapter;
     private ArrayList<Newspaper> imgUrls;
     ViewPager2 viewPager;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
         getWindow().setAttributes(lp);
+        vibrator=(Vibrator)getSystemService(Service.VIBRATOR_SERVICE);
 
         //setTranslucent();
         initHotData();
@@ -114,12 +119,38 @@ public class MainActivity extends AppCompatActivity {
             }
         },2000);*/
         setFullscreen(true);
-        photoPagerAdapter.setOnClickListener(new View.OnClickListener() {
+        /*photoPagerAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*isFullscreen = !isFullscreen;
-                setFullscreen(isFullscreen);*/
+                *//*isFullscreen = !isFullscreen;
+                setFullscreen(isFullscreen);*//*
                 LargeImageView imageView = (LargeImageView) view;
+                *//*Log.e("liyuhao","Scale:"+imageView.getScale());
+                Log.e("liyuhao","Width:"+imageView.getImageWidth());
+                Log.e("liyuhao","Height:"+imageView.getImageHeight());
+                Log.e("liyuhao","TouchX:"+imageView.getTouchX());
+                Log.e("liyuhao","TouchY:"+imageView.getTouchY());*//*
+                *//*Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getLeft());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getTop());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getRight());
+                Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getBottom());*//*
+                syncData(imageView.getWidth(),
+                        imageView.getImageWidth(),
+                        imageView.getImageHeight(),
+                        imgUrls.get(viewPager.getCurrentItem()).getLeft(),
+                        imgUrls.get(viewPager.getCurrentItem()).getTop(),
+                        imgUrls.get(viewPager.getCurrentItem()).getRight(),
+                        imgUrls.get(viewPager.getCurrentItem()).getBottom(),
+                        imageView.getTouchX(),
+                        imageView.getTouchY());
+                vibrator.vibrate(100);
+            }
+        });*/
+
+        photoPagerAdapter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LargeImageView imageView = (LargeImageView) v;
                 /*Log.e("liyuhao","Scale:"+imageView.getScale());
                 Log.e("liyuhao","Width:"+imageView.getImageWidth());
                 Log.e("liyuhao","Height:"+imageView.getImageHeight());
@@ -138,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
                         imgUrls.get(viewPager.getCurrentItem()).getBottom(),
                         imageView.getTouchX(),
                         imageView.getTouchY());
+                //vibrator.vibrate(100);
+                return true;
             }
         });
 

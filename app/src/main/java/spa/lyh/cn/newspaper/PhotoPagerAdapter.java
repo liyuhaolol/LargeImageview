@@ -47,6 +47,8 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     private View.OnClickListener clickListener;
 
+    private View.OnLongClickListener longListener;
+
     public PhotoPagerAdapter(Context context, ArrayList<Newspaper> list) {
         mContext = context;
         mData = list;
@@ -194,7 +196,10 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
                 @Override
                 public boolean onLongClick(View v) {
                     //Log.e("liyuhao","hahah");
-                    return true;
+                    if (longListener != null){
+                        return longListener.onLongClick(v);
+                    }
+                    return false;
                 }
             });
         }
@@ -202,6 +207,10 @@ public class PhotoPagerAdapter extends RecyclerView.Adapter<PhotoPagerAdapter.Vi
 
     public void setOnClickListener(View.OnClickListener listener){
         this.clickListener = listener;
+    }
+
+    public void setOnLongClickListener(View.OnLongClickListener longListener){
+        this.longListener = longListener;
     }
 
 
