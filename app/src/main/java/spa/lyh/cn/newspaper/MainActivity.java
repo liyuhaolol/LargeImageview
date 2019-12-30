@@ -160,15 +160,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getTop());
                 Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getRight());
                 Log.e("liyuhao","getCurrentItem:"+imgUrls.get(viewPager.getCurrentItem()).getBottom());*/
-                syncData(imageView.getWidth(),
-                        imageView.getImageWidth(),
-                        imageView.getImageHeight(),
-                        imgUrls.get(viewPager.getCurrentItem()).getLeft(),
-                        imgUrls.get(viewPager.getCurrentItem()).getTop(),
-                        imgUrls.get(viewPager.getCurrentItem()).getRight(),
-                        imgUrls.get(viewPager.getCurrentItem()).getBottom(),
-                        imageView.getTouchX(),
-                        imageView.getTouchY());
+                if (imageView.hasLoad()){
+                    syncData(imageView.getWidth(),
+                            imageView.getImageWidth(),
+                            imageView.getImageHeight(),
+                            imgUrls.get(viewPager.getCurrentItem()).getLeft(),
+                            imgUrls.get(viewPager.getCurrentItem()).getTop(),
+                            imgUrls.get(viewPager.getCurrentItem()).getRight(),
+                            imgUrls.get(viewPager.getCurrentItem()).getBottom(),
+                            imageView.getTouchX(),
+                            imageView.getTouchY());
+                }
                 //vibrator.vibrate(100);
                 return true;
             }
