@@ -100,13 +100,13 @@ public class MainActivity extends AppCompatActivity {
 
         imgUrls = new ArrayList<>();
         Newspaper newspaper1 = new Newspaper();
-        newspaper1.setUrl("http://paperstatic.uschinapress.com/repo/image/newspaperNo/2019/10/31/aebfde85-6722-4cf2-a915-1688a71d70ca/1031/A02最美国.jpg");
+        newspaper1.setUrl("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fphoto.16pic.com%2F00%2F17%2F25%2F16pic_1725344_b.jpg&refer=http%3A%2F%2Fphoto.16pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620048511&t=de735a218aed1c2b6e559dc8f901bd62");
         imgUrls.add(newspaper1);
         Newspaper newspaper2 = new Newspaper();
-        newspaper2.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572952809598&di=6c26006f0286eab62f8fc60db3bf5d0e&imgtype=0&src=http%3A%2F%2Fimage.51bidlive.com%2Fu%2F20180613%2F0247.jpg");
+        newspaper2.setUrl("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi3.sinaimg.cn%2Fdy%2Fo%2F2011-04-07%2FU2004P1T1D22252393F1395DT20110407173134.jpg&refer=http%3A%2F%2Fi3.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620048567&t=085e7ab9b9fd4d8de265b2140b7b304d");
         imgUrls.add(newspaper2);
         Newspaper newspaper3 = new Newspaper();
-        newspaper3.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577506390392&di=027a73efa7a86f66afc4b682d418cddd&imgtype=0&src=http%3A%2F%2Fwx4.sinaimg.cn%2Forj360%2F007kVUJhly1g1inspvu5zj30v93rbnpd.jpg");
+        newspaper3.setUrl("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.m4.cn%2F2013%2F0109%2F1357711680165.jpg&refer=http%3A%2F%2Fupload.m4.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620048603&t=d462bc05dafce4d21bf7c5040780d703");
         imgUrls.add(newspaper3);
 
         photoPagerAdapter = new PhotoPagerAdapter(this,imgUrls);

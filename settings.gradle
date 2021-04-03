@@ -1,2 +1,2 @@
 include ':app', ':cns_android_sdk', ':lib_largeimageview'
-rootProject.name='NewsPaper'
+rootProject.name='LargeImageview'
