@@ -1,2 +1,16 @@
-include ':app', ':cns_android_sdk', ':lib_largeimageview'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 rootProject.name='LargeImageview'
+include ':app', ':cns_android_sdk', ':lib_largeimageview'

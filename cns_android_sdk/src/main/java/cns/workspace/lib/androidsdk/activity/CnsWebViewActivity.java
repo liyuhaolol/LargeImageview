@@ -109,7 +109,6 @@ public class CnsWebViewActivity extends AppCompatActivity{
         webSettings.setLoadWithOverviewMode(true);
 
         //使用缓存
-        webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setDatabaseEnabled(true);
 

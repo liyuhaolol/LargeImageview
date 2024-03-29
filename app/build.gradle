@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    namespace 'spa.lyh.cn.newspaper'
+    compileSdk 34
     defaultConfig {
         applicationId "spa.lyh.cn.newspaper"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdk 21
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
